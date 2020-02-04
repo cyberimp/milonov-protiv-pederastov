@@ -7,10 +7,17 @@ namespace GachiScripts
     {
         private Image _sprite;
 
+        [SerializeField] private Image gameOver;
+
         public int Hp
         {
             get => (int) (_sprite.fillAmount * 100f);
-            set => _sprite.fillAmount = value / 100f;
+            set
+            {
+                _sprite.fillAmount = value / 100f;
+                if (value <= 0)
+                    gameOver.gameObject.SetActive(true);
+            }
         }
 
         // Start is called before the first frame update

@@ -14,5 +14,10 @@ namespace GachiScripts
         {
             Application.OpenURL("https://qiwi.me/animetiddies");
         }
+
+        public void Menu()
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Data.SqlTypes;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 namespace GachiScripts
 {
@@ -12,6 +13,8 @@ namespace GachiScripts
         private GameObject _target;
         private SpriteRenderer _image;
         private ClickableUpgrade _upgrade;
+        private AudioSource _audio;
+        
 
         private int _upgradeLevel = 0;
         private float _cd = 1.0f;
@@ -19,7 +22,7 @@ namespace GachiScripts
 
         [SerializeField] private Spawner pedicSpawner;
         [SerializeField] private Sprite[] upgradeView;
-        [SerializeField] private MilonovAss LandingZone;
+        [SerializeField] private MilonovAss landingZone;
 
 
         // Start is called before the first frame update
@@ -28,6 +31,7 @@ namespace GachiScripts
             _ray = GetComponentInChildren<LineRenderer>();
             _image = GetComponent<SpriteRenderer>();
             _upgrade = GetComponentInChildren<ClickableUpgrade>();
+            _audio = GetComponent<AudioSource>();
             _upgrade.SetTarget(this);
             _upgrade.SetCost(100);
             _upgrade.gameObject.SetActive(false);
@@ -39,8 +43,8 @@ namespace GachiScripts
         {
             _target = null;
 
-            if (LandingZone) 
-                _target = FindTarget(LandingZone.transform);
+            if (landingZone) 
+                _target = FindTarget(landingZone.transform);
 
             if (!_target)
                 _target = FindTarget(pedicSpawner.transform);
@@ -77,6 +81,7 @@ namespace GachiScripts
         public void Upgrade()
         {
             if (_upgradeLevel == MaxUp) return;
+            _audio.Play();
             _image.sprite = upgradeView[_upgradeLevel];
             _upgradeLevel++;
             _upgrade.SetCost(_upgradeLevel * 200);
